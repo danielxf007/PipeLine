@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://board/cell/cell.gd"
 }, {
 "base": "Node",
+"class": "CellSelector",
+"language": "GDScript",
+"path": "res://board/cell_selector/cell_selector.gd"
+}, {
+"base": "Node",
 "class": "CoordinatesConversor",
 "language": "GDScript",
 "path": "res://board/coordinate_conversor/coordinate_conversor.gd"
@@ -52,6 +57,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Board": "",
 "Cell": "",
+"CellSelector": "",
 "CoordinatesConversor": "",
 "Liquid": "",
 "Pipe": "",
