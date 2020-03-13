@@ -2,5 +2,5 @@
 
 [ext_resource path="res://pipeline/pipe/pipe.gd" type="Script" id=1]
 
-[node name="Pipe" type="Sprite"]
+[node name="pipe" type="Sprite"]
 script = ExtResource( 1 )
