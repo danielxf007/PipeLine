@@ -11,7 +11,6 @@ var cell_dim: Tuple
 var matrix_of_cells: Array
 var cell_node: Node2D
 
-
 func _ready():
 	self.dimensions = Tuple.new(self.NUMBER_OF_CELLS_ROWS,
 	self.NUMBER_OF_CELLS_COLUMNS)
