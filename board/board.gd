@@ -1,5 +1,4 @@
 extends Node2D
-signal board_created(board)
 class_name Board
 const CELL_X_DIM: float = 48.0
 const CELL_Y_DIM: float = 48.0
@@ -10,6 +9,7 @@ var dimensions: Tuple
 var cell_dim: Tuple
 var matrix_of_cells: Array
 var cell_node: Node2D
+var player_c: Tuple = Tuple.new(0, 0)
 
 func _ready():
 	self.dimensions = Tuple.new(self.NUMBER_OF_CELLS_ROWS,
@@ -19,7 +19,7 @@ func _ready():
 	self.matrix_of_cells = self.create_matrix(self.BOARD_TOP_POS,
 	self.NUMBER_OF_CELLS_ROWS, self.NUMBER_OF_CELLS_COLUMNS,
 	self.cell_dim, preload("res://board/cell/Cell.tscn"))
-	self.board_created()
+	CoordinateConversor.cell_dim = self.cell_dim
 
 func create_column_cells(starting_point: Vector2, n_cells: int,
  cell_dimensions: Tuple, cell_packed_scene: PackedScene) -> Array:
@@ -49,8 +49,9 @@ cell_dimensions: Tuple, cell_scene: PackedScene) -> Array:
 		matrix_top_pos.y+= cell_dimensions.i
 	return matrix
 
-func board_created() -> void:
-	for element in self.get_tree().get_nodes_in_group("board_listener"):
-# warning-ignore:return_value_discarded
-		self.connect("board_created", element, "_on_Board_board_created")
-	self.emit_signal("board_created", self)
+func on_board(coord: Tuple) -> bool:
+	return UtilFunctions.is_inside_matrix(self.dimensions, coord)
+
+
+func _on_Player_player_selected_cell(pos: Tuple) -> void:
+	self.matrix_of_cells[pos.i][pos.j].select_this_cell()

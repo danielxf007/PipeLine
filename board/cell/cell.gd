@@ -14,3 +14,10 @@ func clear_element() -> void:
 
 func is_occupied() -> bool:
 	return self.element != null
+
+func select_this_cell() -> void:
+	if not self.is_occupied():
+		self.self_modulate = "3effffff"
+
+func player_out_cell() -> void:
+	self.self_modulate = "ffffff"
