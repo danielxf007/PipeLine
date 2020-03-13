@@ -18,8 +18,9 @@ func connect_next_pipe(pipe) -> void:
 	self.next_pipe = pipe
 
 func set_flux(flux: Liquid) -> void:
-	self.add_child(flux)
-	self.pipe_flux = flux
+	if flux:
+		self.add_child(flux)
+		self.pipe_flux = flux
 
 func rotate_pipe(angle: float) -> void:
 	self.direction = self.direction.rotated(angle)
