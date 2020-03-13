@@ -8,15 +8,37 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Board",
+"language": "GDScript",
+"path": "res://board/board.gd"
+}, {
+"base": "Sprite",
+"class": "Cell",
+"language": "GDScript",
+"path": "res://board/cell/cell.gd"
+}, {
+"base": "Node",
+"class": "Tuple",
+"language": "GDScript",
+"path": "res://util/tuple.gd"
+} ]
 _global_script_class_icons={
-
+"Board": "",
+"Cell": "",
+"Tuple": ""
 }
 
 [application]
 
 config/name="PipeLine"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1056
+window/size/height=576
 
 [rendering]
 
