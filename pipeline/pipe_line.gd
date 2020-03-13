@@ -34,10 +34,3 @@ func flux_through_pipe_line(flux: Liquid) -> void:
 
 func is_empty() -> bool:
 	return self.first_pipe == null and self.last_pipe == null
-
-func disconnect_pipe(pipe: Pipe) -> void:
-	var current_pipe_i: Pipe = self.first_pipe
-	var current_pipe_j: Pipe = self.last_pipe
-	while current_pipe_i != current_pipe_j:
-		if current_pipe_i == pipe:
-			
