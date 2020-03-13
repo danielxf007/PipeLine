@@ -52,6 +52,5 @@ cell_dimensions: Tuple, cell_scene: PackedScene) -> Array:
 func on_board(coord: Tuple) -> bool:
 	return UtilFunctions.is_inside_matrix(self.dimensions, coord)
 
-
 func _on_Player_player_selected_cell(pos: Tuple) -> void:
 	self.matrix_of_cells[pos.i][pos.j].select_this_cell()
