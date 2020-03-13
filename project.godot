@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://pipeline/liquid/liquid.gd"
 }, {
+"base": "Sprite",
+"class": "Pipe",
+"language": "GDScript",
+"path": "res://pipeline/pipe/pipe.gd"
+}, {
 "base": "Node",
 "class": "Tuple",
 "language": "GDScript",
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "Board": "",
 "Cell": "",
 "Liquid": "",
+"Pipe": "",
 "Tuple": ""
 }
 
