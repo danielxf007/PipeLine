@@ -38,3 +38,6 @@ func concat(pipe_line) -> void:
 	self.connect_to_ending(pipe_line.first_pipe)
 	self.last_pipe = pipe_line.last_pipe
 	self.flux_through_pipe_line(self.last_pipe)
+
+func set_name(new_name: String) -> void:
+	self.name = new_name
