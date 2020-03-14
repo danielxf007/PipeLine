@@ -47,12 +47,14 @@ func insert_selected_cell(pos: Tuple) -> void:
 			var cell_to_insert: Cell = self.matrix_of_cells[pos.i][pos.j]
 			var first_part: Array = [first_cell]
 			var second_part: Array = [last_cell]
-			for index in range(1, cells_row.size()-2):
+			var index = cells_row.size()-1
+			for i in range(1, cells_row.size()-1):
 				cell = cells_row[index]
 				if cell.board_coord.i > cell_to_insert.board_coord.i:
-					first_part = cells_row.slice(0, index-1)
-					second_part = cells_row.slice(index,cells_row.size()-1)
+					index = i
 					break
+			first_part += cells_row.slice(1, index-1)
+			second_part += cells_row.slice(index,cells_row.size()-1)
 			cell_to_insert.select_this_cell()
 			cells_row = first_part + [cell_to_insert] + second_part
 			self.selected_cells[pos.j] = cells_row
@@ -103,7 +105,7 @@ func create_groups_of_selected_cells() -> Array:
 			if self.belongs_to(group, cells_row[i]):
 				groups[groups.size()-1].append(cells_row[i])
 			else:
-				group = [self.selected_cells[j][i]]
+				group = [cells_row[i]]
 				groups.append(group)
 		group = []
 	return groups
