@@ -6,10 +6,7 @@ var before_pipe
 var next_pipe
 var pipe_flux: Liquid
 var direction: Vector2 = Vector2(1, 0)
-var pipe_id: int
-
-func set_id(id: int) -> void:
-	self.pipe_id = id
+var board_coord: Tuple
 
 func connect_before_pipe(pipe) -> void:
 	self.before_pipe = pipe

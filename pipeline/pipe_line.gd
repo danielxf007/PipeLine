@@ -3,10 +3,10 @@ class_name PipeLine
 
 var first_pipe: Pipe
 var last_pipe: Pipe
-
 func init(pipe: Pipe) -> void:
 	self.first_pipe = pipe
 	self.last_pipe = pipe
+	self.global_position = first_pipe.global_position
 	self.add_child(pipe)
 
 func connect_to_beginning(pipe: Pipe) -> void:

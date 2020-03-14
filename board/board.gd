@@ -20,6 +20,7 @@ func _ready():
 	self.cell_dim, preload("res://board/cell/Cell.tscn"))
 	CoordinateConversor.cell_dim = self.cell_dim
 	$CellSelector.matrix_of_cells = self.matrix_of_cells
+	$CellSelector.init(self.NUMBER_OF_CELLS_COLUMNS)
 
 func create_column_cells(starting_point: Vector2, n_cells: int,
  cell_dimensions: Tuple, row_ind: int, 
