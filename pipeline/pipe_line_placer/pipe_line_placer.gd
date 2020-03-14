@@ -16,6 +16,7 @@ func place_pipe_lines(selected_cells: Array) -> void:
 		cell = selected_cells[j][0]
 		pipe = self.pipe_packed_scene.instance()
 		cell.set_element(pipe)
+		pipe.position_on_board = cell.global_position
 		pipe_line = self.pipe_line_scene.instance()
 		pipe_line.init(pipe)
 		for i in range(1, selected_cells[j].size()):
