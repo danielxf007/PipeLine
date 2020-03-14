@@ -7,6 +7,10 @@ var next_pipe
 var pipe_flux: Liquid
 var direction: Vector2 = Vector2(0, 1)
 var board_coord: Tuple
+var position_on_board: Vector2
+
+func _ready():
+	self.set_position_on_board()
 
 func connect_before_pipe(pipe) -> void:
 	self.before_pipe = pipe
@@ -26,3 +30,6 @@ func rotate_pipe(angle: float) -> void:
 func move_to(pos: Tuple) -> void:
 	self.global_position.x = pos.j
 	self.global_position.y = pos.i
+
+func set_position_on_board() -> void:
+	self.global_position = self.position_on_board

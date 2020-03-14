@@ -7,6 +7,7 @@ var dimensions: Tuple
 var cell_selected: bool = false
 var board_coord: Tuple
 
+
 func set_element(new_element) -> void:
 	if not self.element:
 		self.element = new_element

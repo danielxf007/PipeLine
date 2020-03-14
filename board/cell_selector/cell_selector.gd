@@ -63,11 +63,12 @@ func eliminate_selected_cell(cell_pos: Tuple, pos_in: int) -> void:
 		self.selected_cells[cell_pos.j].remove(pos_in)
 
 func _on_Player_player_selected_cell(pos: Tuple) -> void:
-	var pos_in: int = self.in_selected_cells(pos)
-	if pos_in == -1:
-		self.insert_selected_cell(pos)
-	else:
-		self.eliminate_selected_cell(pos, pos_in)
+	if not self.matrix_of_cells[pos.i][pos.j].is_occupied():
+		var pos_in: int = self.in_selected_cells(pos)
+		if pos_in == -1:
+			self.insert_selected_cell(pos)
+		else:
+			self.eliminate_selected_cell(pos, pos_in)
 
 func filter_selected_cells() -> void:
 	var filtered: Array = []
@@ -93,18 +94,21 @@ func belongs_to(group: Array, cell: Cell) -> bool:
 func create_groups_of_selected_cells() -> Array:
 	var groups: Array = []
 	var group: Array = []
+	var cells_row: Array
 	for j in range(0, self.selected_cells.size()):
+		cells_row = self.selected_cells[j]
 		group.append(self.selected_cells[j][0])
-		for i in range(1, self.selected_cells[j].size()):
-			if self.belongs_to(group, self.selected_cells[j][i]):
-				group.append(self.selected_cells[j][i])
-			else:
-				groups.append(group)
-				group = [self.selected_cells[j][i]]
 		groups.append(group)
+		for i in range(1, cells_row.size()):
+			if self.belongs_to(group, cells_row[i]):
+				groups[groups.size()-1].append(cells_row[i])
+			else:
+				group = [self.selected_cells[j][i]]
+				groups.append(group)
+		group = []
 	return groups
 
-func _on_Button_pressed():
+func _on_Player_pipe_line_placed():
 	self.filter_selected_cells()
 	self.emit_signal("cells_selected",
 	self.create_groups_of_selected_cells())

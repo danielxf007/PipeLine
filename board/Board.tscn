@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://board/board.gd" type="Script" id=1]
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://board/cell_selector/cell_selector.gd" type="Script" id=3]
 [ext_resource path="res://pipeline/pipe_line_placer/pipe_line_placer.gd" type="Script" id=4]
+[ext_resource path="res://art/bomb_1.png" type="Texture" id=5]
 
 [node name="Board" type="Node2D"]
 script = ExtResource( 1 )
@@ -21,15 +22,11 @@ pipes_path = NodePath("../Pipes")
 
 [node name="Pipes" type="Node2D" parent="."]
 
-[node name="Button" type="Button" parent="."]
-margin_left = 877.0
-margin_top = 491.0
-margin_right = 1056.0
-margin_bottom = 576.0
-text = "Place Pipe"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="button" type="TouchScreenButton" parent="."]
+position = Vector2( 902.259, 400.438 )
+scale = Vector2( 0.591664, 0.681162 )
+normal = ExtResource( 5 )
+action = "place_pipe_line"
 [connection signal="cells_selected" from="CellSelector" to="PipeLinePlacer" method="place_pipe_lines"]
+[connection signal="pipe_line_placed" from="Player" to="CellSelector" method="_on_Player_pipe_line_placed"]
 [connection signal="player_selected_cell" from="Player" to="CellSelector" method="_on_Player_player_selected_cell"]
-[connection signal="pressed" from="Button" to="CellSelector" method="_on_Button_pressed"]

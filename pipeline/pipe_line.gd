@@ -25,7 +25,6 @@ func connect_to_ending(pipe: Pipe) -> void:
 		pipe.set_flux(self.last_pipe.pipe_flux)
 		self.add_child_below_node(self.last_pipe, pipe)
 		self.last_pipe = pipe
-		print(self.get_child_count())
 
 func flux_through_pipe_line(flux: Liquid) -> void:
 	var current_pipe: Pipe = self.first_pipe.next_pipe
