@@ -5,7 +5,7 @@ class_name Pipe
 var before_pipe
 var next_pipe
 var pipe_flux: Liquid
-var direction: Vector2 = Vector2(1, 0)
+var direction: Vector2 = Vector2(0, 1)
 var board_coord: Tuple
 
 func connect_before_pipe(pipe) -> void:

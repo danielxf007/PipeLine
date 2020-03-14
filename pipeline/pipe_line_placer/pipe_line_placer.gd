@@ -11,6 +11,7 @@ func place_pipe_lines(selected_cells: Array) -> void:
 	var pipes: Node2D = self.get_node(self.pipes_path)
 	var pipe_line: PipeLine
 	var cell: Cell
+	print(selected_cells)
 	for j in range(0, selected_cells.size()-1):
 		cell = selected_cells[j][0]
 		pipe = self.pipe_packed_scene.instance()
@@ -23,3 +24,4 @@ func place_pipe_lines(selected_cells: Array) -> void:
 			cell.set_element(pipe)
 			pipe_line.connect_to_ending(pipe)
 		pipes.add_child(pipe_line)
+		pipe_line.global_position = pipe_line.first_pipe.global_position

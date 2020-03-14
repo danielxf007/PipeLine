@@ -11,13 +11,13 @@ func init(m_columns: int) -> void:
 	self.initialize_selected_cells()
 
 func initialize_selected_cells() -> void:
-	for _j in range(0, self.board_m_columns-1):
+	for _j in range(0, self.board_m_columns):
 		self.selected_cells.append([])
 
 func in_selected_cells(cell_pos: Tuple) -> int:
 	var cell: Cell
 	var cell_row: Array = self.selected_cells[cell_pos.j]
-	for i in range(0, cell_row.size()-1):
+	for i in range(0, cell_row.size()):
 		cell = cell_row[i]
 		if cell.board_coord.i == cell_pos.i:
 			return i
@@ -93,9 +93,9 @@ func belongs_to(group: Array, cell: Cell) -> bool:
 func create_groups_of_selected_cells() -> Array:
 	var groups: Array = []
 	var group: Array = []
-	for j in range(0, self.selected_cells.size()-1):
+	for j in range(0, self.selected_cells.size()):
 		group.append(self.selected_cells[j][0])
-		for i in range(1, self.selected_cells[j].size()-1):
+		for i in range(1, self.selected_cells[j].size()):
 			if self.belongs_to(group, self.selected_cells[j][i]):
 				group.append(self.selected_cells[j][i])
 			else:

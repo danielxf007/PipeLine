@@ -3,10 +3,10 @@ class_name PipeLine
 
 var first_pipe: Pipe
 var last_pipe: Pipe
+
 func init(pipe: Pipe) -> void:
 	self.first_pipe = pipe
 	self.last_pipe = pipe
-	self.global_position = first_pipe.global_position
 	self.add_child(pipe)
 
 func connect_to_beginning(pipe: Pipe) -> void:
@@ -19,12 +19,13 @@ func connect_to_beginning(pipe: Pipe) -> void:
 			self.flux_through_pipe_line(self.first_pipe.pipe_flux)
 
 func connect_to_ending(pipe: Pipe) -> void:
-	if pipe.direction == self.first_pipe.direction:
+	if pipe.direction == self.last_pipe.direction:
 		self.last_pipe.connect_next_pipe(pipe)
 		pipe.connect_before_pipe(self.last_pipe)
 		pipe.set_flux(self.last_pipe.pipe_flux)
 		self.add_child_below_node(self.last_pipe, pipe)
 		self.last_pipe = pipe
+		print(self.get_child_count())
 
 func flux_through_pipe_line(flux: Liquid) -> void:
 	var current_pipe: Pipe = self.first_pipe.next_pipe
