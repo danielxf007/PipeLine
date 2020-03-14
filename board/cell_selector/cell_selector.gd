@@ -16,37 +16,46 @@ func initialize_selected_cells() -> void:
 
 func in_selected_cells(cell_pos: Tuple) -> int:
 	var cell: Cell
-	for i in range(0, self.selected_cells[cell_pos.j].size()-1):
-		cell = selected_cells[cell_pos.j][i]
+	var cell_row: Array = self.selected_cells[cell_pos.j]
+	for i in range(0, cell_row.size()-1):
+		cell = cell_row[i]
 		if cell.board_coord.i == cell_pos.i:
 			return i
 	return -1
 
 func insert_selected_cell(pos: Tuple) -> void:
 	var cell: Cell
-	var first_cell: Tuple = self.selected_cells[pos.j][0].board_coord
-	var last_cell: Cell = self.selected_cells[pos.j][self.selected_cells.size()]
-	if first_cell.i > pos.i:
-		cell = self.matrix_of_cells[pos.i][pos.j]
-		cell.select_this_cell()
-		self.selected_cells[pos.j].push_front(cell)
-	elif last_cell.i < pos.i:
+	if selected_cells[pos.j].empty():
 		cell = self.matrix_of_cells[pos.i][pos.j]
 		cell.select_this_cell()
 		self.selected_cells[pos.j].append(cell)
-	elif first_cell.i < pos.i and last_cell.i > pos.i:
-		var cell_to_insert: Cell = self.matrix_of_cells[pos.i][pos.j]
-		for index in range(1, self.selected_cells.size()-2):
-			cell = self.selected_cells[pos.j][index].board_coord
-			if cell.board_coord.i > cell_to_insert.board_coord.i:
-				var first_part: Array = self.selected_cells[pos.j].slice(
-				0, index-1)
-				var second_part: Array = self.selected_cells[pos.j].slice(
-				index, self.selected_cells.size()-1)
-				cell_to_insert.select_this_cell()
-				self.selected_cells[pos.j] = (first_part + [cell_to_insert] +
-				second_part)
-				break
+	else:
+		var cells_row: Array = self.selected_cells[pos.j]
+		var first_cell: Cell = cells_row[0]
+		var last_cell: Cell = cells_row[cells_row.size()-1]
+		var f_board_coord: Tuple = first_cell.board_coord
+		var l_board_cood: Tuple = last_cell.board_coord
+		if f_board_coord.i > pos.i:
+			cell = self.matrix_of_cells[pos.i][pos.j]
+			cell.select_this_cell()
+			self.selected_cells[pos.j].push_front(cell)
+		elif l_board_cood.i < pos.i:
+			cell = self.matrix_of_cells[pos.i][pos.j]
+			cell.select_this_cell()
+			self.selected_cells[pos.j].append(cell)
+		elif f_board_coord.i < pos.i and l_board_cood.i > pos.i:
+			var cell_to_insert: Cell = self.matrix_of_cells[pos.i][pos.j]
+			var first_part: Array = [first_cell]
+			var second_part: Array = [last_cell]
+			for index in range(1, cells_row.size()-2):
+				cell = cells_row[index]
+				if cell.board_coord.i > cell_to_insert.board_coord.i:
+					first_part = cells_row.slice(0, index-1)
+					second_part = cells_row.slice(index,cells_row.size()-1)
+					break
+			cell_to_insert.select_this_cell()
+			cells_row = first_part + [cell_to_insert] + second_part
+			self.selected_cells[pos.j] = cells_row
 
 func eliminate_selected_cell(cell_pos: Tuple, pos_in: int) -> void:
 		var cell: Cell = self.matrix_of_cells[cell_pos.i][cell_pos.j]
@@ -77,9 +86,29 @@ func deselect_cells() -> void:
 	for cell in self.selected_cells:
 		cell.deselect_this_cell()
 
+func belongs_to(group: Array, cell: Cell) -> bool:
+	var top_cell: Cell = group[group.size()-1]
+	return cell.board_coord.i - top_cell.board_coord.i == 1
+
+func create_groups_of_selected_cells() -> Array:
+	var groups: Array = []
+	var group: Array = []
+	for j in range(0, self.selected_cells.size()-1):
+		group.append(self.selected_cells[j][0])
+		for i in range(1, self.selected_cells[j].size()-1):
+			if self.belongs_to(group, self.selected_cells[j][i]):
+				group.append(self.selected_cells[j][i])
+			else:
+				groups.append(group)
+				group = [self.selected_cells[j][i]]
+		groups.append(group)
+	return groups
+
 func _on_Button_pressed():
 	self.filter_selected_cells()
-	self.emit_signal("cells_selected", self.selected_cells)
+	self.emit_signal("cells_selected",
+	self.create_groups_of_selected_cells())
 	self.reduce_selected_cells()
 	self.deselect_cells()
 	self.selected_cells.clear()
+	self.initialize_selected_cells()
