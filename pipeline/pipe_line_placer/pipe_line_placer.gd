@@ -4,7 +4,7 @@ class_name PipeLinePlacer
 export(NodePath) var pipes_path: NodePath
 var pipe_packed_scene: PackedScene = preload("res://pipeline/pipe/pipe.tscn")
 var pipe_line_scene: PackedScene = preload("res://pipeline/PipeLine.tscn")
-
+var pipes_list: Array = []
 
 func place_pipe_lines(selected_cells: Array) -> void:
 	var pipe: Pipe
@@ -25,10 +25,4 @@ func place_pipe_lines(selected_cells: Array) -> void:
 			pipe.position_on_board = cell.global_position
 			pipe_line.connect_to_ending(pipe)
 		pipes.add_child(pipe_line)
-
-func print_selected(selected_cells: Array) -> void:
-	for element in selected_cells:
-		for cell in element:
-			var cell_board: Tuple = cell.board_coord
-			print("( " + str(cell_board.i) + ", " + str(cell_board.j) + " )")
-		print("##################################")
+		self.pipes_list.append(pipe_line)
