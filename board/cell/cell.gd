@@ -12,6 +12,7 @@ func set_element(new_element) -> void:
 		self.element = new_element
 
 func clear_element() -> void:
+	self.element.queue_free()
 	self.element = null
 
 func is_occupied() -> bool:

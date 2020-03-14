@@ -1,13 +1,13 @@
 extends Node2D
-signal pipe_line_deleted(new_first_pipe, new_last_pipe)
 class_name PipeLine
 
 var first_pipe: Pipe
 var last_pipe: Pipe
 
-func _init(pipe: Pipe) -> void:
+func init(pipe: Pipe) -> void:
 	self.first_pipe = pipe
 	self.last_pipe = pipe
+	self.add_child(pipe)
 
 func connect_to_beginning(pipe: Pipe) -> void:
 	if pipe.direction == self.first_pipe.direction:

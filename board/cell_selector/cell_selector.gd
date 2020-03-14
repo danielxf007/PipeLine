@@ -1,9 +1,8 @@
 extends Node
-
+signal cells_selected(cells)
 class_name CellSelector
 
 var matrix_of_cells: Array
-var player_c: Tuple = Tuple.new(0, 0)
 var selected_cells: Array = []
 
 func in_selected_cells(pos: Tuple) -> int:
@@ -44,3 +43,12 @@ func _on_Player_player_selected_cell(pos: Tuple) -> void:
 		cell = self.matrix_of_cells[pos.i][pos.j]
 		cell.deselect_this_cell()
 		self.selected_cells.remove(pos_in)
+
+func deselect_cells() -> void:
+	for cell in self.selected_cells:
+		cell.deselect_this_cell()
+
+func _on_Button_pressed():
+	self.emit_signal("cells_selected", self.selected_cells)
+	self.deselect_cells()
+	self.selected_cells.clear()
