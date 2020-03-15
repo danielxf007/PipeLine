@@ -13,11 +13,14 @@ var pipe_flux: Liquid
 var direction: Vector2 = Vector2(0, 1)
 var board_coord: Tuple
 var position_on_board: Vector2
+var board_dim: Tuple
 var matrix_of_cells: Array
 
-func init(board_pos: Tuple, world_pos: Vector2, matrix: Array) -> void:
+func init(board_pos: Tuple, world_pos: Vector2, board_di: Tuple,
+matrix: Array) -> void:
 	self.board_coord = board_pos
 	self.position_on_board = world_pos
+	self.board_dim = board_di
 	self.matrix_of_cells = matrix
 
 func set_pipe() -> void:
@@ -34,9 +37,14 @@ func set_pipe() -> void:
 
 func _ready():
 	self.set_position_on_board()
+	self.set_pipe()
 
 func there_is_before_pipe(i: int, j: int, dir: Vector2) -> bool:
-	return self.matrix_of_cells[i - dir.y][j - dir.x].is_occupied()
+	if UtilFunctions.number_in_range(0, self.board_dim.i-1, 
+	i - dir.y) and UtilFunctions.number_in_range(0,
+	self.board_dim.j, j - dir.x):
+		return self.matrix_of_cells[i - dir.y][j - dir.x].is_occupied()
+	return false
 
 func connect_before_pipe(i: int, j: int, dir: Vector2) -> void:
 	var cell: Cell = self.matrix_of_cells[i - dir.y][j - dir.x]
@@ -47,7 +55,11 @@ func connect_before_pipe(i: int, j: int, dir: Vector2) -> void:
 	self.connect("liquid_flowing", pipe, "_on_pipe_liquid_flowing")
 
 func there_is_next_pipe(i: int, j: int, dir: Vector2) -> bool:
-	return self.matrix_of_cells[i + dir.y][j + dir.x].is_occupied()
+	if UtilFunctions.number_in_range(0, self.board_dim.i-1, 
+	i + dir.y) and UtilFunctions.number_in_range(0,
+	self.board_dim.j-1, j + dir.x):
+		return self.matrix_of_cells[i + dir.y][j + dir.x].is_occupied()
+	return false
 
 func connect_next_pipe(i: int, j: int, dir: Vector2) -> void:
 	var cell: Cell = self.matrix_of_cells[i + dir.y][j + dir.x]
@@ -87,3 +99,6 @@ func _on_pipe_liquid_flowing(pipe):
 
 func _on_pipe_liquid_resource_connected(liquid_resource):
 	self.pipe_flux = liquid_resource.liquid
+
+func set_name(new_name: String) -> void:
+	self.name = new_name

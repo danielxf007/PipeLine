@@ -22,6 +22,7 @@ func _ready():
 	$CellSelector.matrix_of_cells = self.matrix_of_cells
 	$CellSelector.init(self.NUMBER_OF_CELLS_COLUMNS)
 	$PipeLinePlacer.matrix_of_cells = self.matrix_of_cells
+	$PipeLinePlacer.board_dim = self.dimensions
 
 func create_column_cells(starting_point: Vector2, n_cells: int,
  cell_dimensions: Tuple, row_ind: int, 
