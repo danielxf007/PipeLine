@@ -93,31 +93,11 @@ func belongs_to(group: Array, cell: Cell) -> bool:
 	var top_cell: Cell = group[group.size()-1]
 	return cell.board_coord.i - top_cell.board_coord.i == 1
 
-func create_groups_of_selected_cells() -> Array:
-	var list_of_groups:Array = []
-	var groups: Array = []
-	var group: Array = []
-	var cells_row: Array
-	for j in range(0, self.selected_cells.size()):
-		groups = []
-		cells_row = self.selected_cells[j]
-		group.append(self.selected_cells[j][0])
-		groups.append(group)
-		for i in range(1, cells_row.size()):
-			if self.belongs_to(group, cells_row[i]):
-				groups[groups.size()-1].append(cells_row[i])
-			else:
-				group = [cells_row[i]]
-				groups.append(group)
-		list_of_groups.append(groups)
-		group = []
-	return list_of_groups
-
 func _on_Player_pipe_line_placed():
 	self.filter_selected_cells()
-	self.emit_signal("cells_selected",
-	self.create_groups_of_selected_cells())
 	self.reduce_selected_cells()
+	self.emit_signal("cells_selected",
+	self.selected_cells)
 	self.deselect_cells()
 	self.selected_cells.clear()
 	self.initialize_selected_cells()
