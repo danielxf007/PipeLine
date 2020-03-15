@@ -8,34 +8,33 @@ var pipes_list: Array = []
 
 func init_pipe_list(m_columns: int) -> void:
 	for _j in range(0, m_columns):
-		pipes_list.append([null])
+		pipes_list.append([[]])
 
 func place_pipe_lines(selected_cells: Array) -> void:
 	self.set_pipe_list(selected_cells)
-	self.reduce_pipe_lines()
-	self.add_pipe_lines(self.pipes_list)
-	
+	print(self.pipes_list)
+	#self.reduce_pipe_lines()
+	#self.add_pipe_lines(self.pipes_list)
 
 func set_pipe_list(selected_cells: Array) -> void:
 	var pipe: Pipe
 	var pipe_line: PipeLine
 	var cell: Cell
-	var pipe_lines_row: Array
+	var pipe_lines_groups: Array
+	var pipe_lines_group: Array
 	var pipes_l: Array
 	for j in range(0, selected_cells.size()):
-		pipe_lines_row = selected_cells[j]
-		pipes_l = []
-		for i in range(0, pipe_lines_row.size()):
-			cell = selected_cells[j][i]
-			pipe = self.pipe_packed_scene.instance()
-			cell.set_element(pipe)
-			pipe.position_on_board = cell.global_position
-			pipe_line = self.pipe_line_scene.instance()
-			pipe_line.init(pipe)
-			pipes_l.append(pipe_line)
-		cell = selected_cells[j][0]
-		var index = cell.board_coord.j
-		self.pipes_list[index] += pipes_l
+		pipe_lines_groups= selected_cells[j]
+		for i in range(0, pipe_lines_groups.size()):
+			pipe_lines_group = pipe_lines_groups[i]
+			self.insert_into_pipes_list(pipe_lines_group)
+
+func insert_into_pipes_list(group: Array) -> void:
+	var cell: Cell = group[0]
+	var board_cood: Tuple = cell.board_coord
+	var pipe_lines_group: Array = self.pipes_list[board_cood.j]
+	self.pipes_list[board_cood.j].append(group)
+
 
 func reduce_pipe_lines() -> void:
 	var pipe_lines_row: Array
