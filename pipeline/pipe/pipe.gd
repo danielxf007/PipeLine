@@ -23,21 +23,21 @@ matrix: Array) -> void:
 	self.board_dim = board_di
 	self.matrix_of_cells = matrix
 
-func set_pipe() -> void:
+func set_pipe(i: int, j: int, dir: Vector2) -> void:
 	if self.there_is_next_pipe(self.board_coord.i, self.board_coord.j,
 	self.direction):
-		self.connect_next_pipe(self.board_coord.i, self.board_coord.j,
-		self.direction)
-		self.emit_signal("next_pipe_connected")
+		var cell: Cell = self.matrix_of_cells[i + dir.y][j + dir.x]
+		var pipe: Pipe = cell.element
+		self.connect_before_to(pipe)
 	if self.there_is_before_pipe(self.board_coord.i, self.board_coord.j,
 	self.direction):
-		self.connect_before_pipe(self.board_coord.i, self.board_coord.j,
-		self.direction)
-		self.emit_signal("before_pipe_connected")
+		var cell: Cell = self.matrix_of_cells[i - dir.y][j - dir.x]
+		var pipe: Pipe = cell.element
+		self.connect_next_to(pipe)
 
 func _ready():
 	self.set_position_on_board()
-	self.set_pipe()
+	self.set_pipe(self.board_coord.i, self.board_coord.j, self.direction)
 
 func there_is_before_pipe(i: int, j: int, dir: Vector2) -> bool:
 	if UtilFunctions.number_in_range(0, self.board_dim.i-1, 
@@ -46,13 +46,14 @@ func there_is_before_pipe(i: int, j: int, dir: Vector2) -> bool:
 		return self.matrix_of_cells[i - dir.y][j - dir.x].is_occupied()
 	return false
 
-func connect_before_pipe(i: int, j: int, dir: Vector2) -> void:
-	var cell: Cell = self.matrix_of_cells[i - dir.y][j - dir.x]
-	var pipe: Pipe = cell.element
+func connect_before_to(pipe: Pipe) -> void:
+# warning-ignore:return_value_discarded
+	self.connect("before_pipe_connected", pipe,
+	"_on_pipe_before_pipe_connected")
+	self.emit_signal("before_pipe_connected", self)
 # warning-ignore:return_value_discarded
 	pipe.connect("next_pipe_connected", self, "_on_pipe_next_pipe_connected")
-# warning-ignore:return_value_discarded
-	self.connect("liquid_flowing", pipe, "_on_pipe_liquid_flowing")
+	pipe.emit_signal("next_pipe_connected", pipe)
 
 func there_is_next_pipe(i: int, j: int, dir: Vector2) -> bool:
 	if UtilFunctions.number_in_range(0, self.board_dim.i-1, 
@@ -61,14 +62,15 @@ func there_is_next_pipe(i: int, j: int, dir: Vector2) -> bool:
 		return self.matrix_of_cells[i + dir.y][j + dir.x].is_occupied()
 	return false
 
-func connect_next_pipe(i: int, j: int, dir: Vector2) -> void:
-	var cell: Cell = self.matrix_of_cells[i + dir.y][j + dir.x]
-	var pipe: Pipe = cell.element
+func connect_next_to(pipe: Pipe) -> void:
+# warning-ignore:return_value_discarded
+	self.connect("next_pipe_connected", pipe,
+	"_on_pipe_next_pipe_connected")
+	self.emit_signal("next_pipe_connected", self)
 # warning-ignore:return_value_discarded
 	pipe.connect("before_pipe_connected", self,
 	"_on_pipe_before_pipe_connected")
-# warning-ignore:return_value_discarded
-	pipe.connect("liquid_flowing", self, "_on_pipe_liquid_flowing")
+	pipe.emit_signal("before_pipe_connected", pipe)
 
 func has_flux() -> bool:
 	if self.pipe_flux == null:

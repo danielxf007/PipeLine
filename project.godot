@@ -35,6 +35,11 @@ _global_script_classes=[ {
 "path": "res://pipeline/liquid/liquid.gd"
 }, {
 "base": "Sprite",
+"class": "LiquidResource",
+"language": "GDScript",
+"path": "res://pipeline/liquid_resource/liquid_resource.gd"
+}, {
+"base": "Sprite",
 "class": "Pipe",
 "language": "GDScript",
 "path": "res://pipeline/pipe/pipe.gd"
@@ -60,6 +65,7 @@ _global_script_class_icons={
 "CellSelector": "",
 "CoordinatesConversor": "",
 "Liquid": "",
+"LiquidResource": "",
 "Pipe": "",
 "PipeLinePlacer": "",
 "Player": "",
