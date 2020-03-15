@@ -17,7 +17,8 @@ func place_pipe_lines(selected_cells: Array) -> void:
 		cell = selected_cells[i]
 		pipe.init(cell.board_coord, cell.global_position, self.board_dim,
 		self.matrix_of_cells)
-		pipe.set_name(str(i))
+		pipe.set_name("( " + str(cell.board_coord.i) + ", " +
+		str(cell.board_coord.j) + " )")
 		cell.set_element(pipe)
 		pipes.add_child(pipe)
 	var ch: Array = pipes.get_children()
