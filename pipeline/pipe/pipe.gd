@@ -84,7 +84,7 @@ func _on_pipe_before_pipe_connected(pipe):
 	self.before_pipe = pipe
 	if pipe.has_flux():
 		var flux: Liquid = self.pipe_flux_scene.instance()
-		flux._init(pipe.pipe_flux.liquid_name)
+		flux.init(pipe.pipe_flux.liquid_name)
 		self.add_child(flux)
 		self.pipe_flux = flux
 		self.emit_signal("liquid_flowing", self)
@@ -94,7 +94,7 @@ func _on_pipe_next_pipe_connected(pipe):
 
 func _on_pipe_liquid_flowing(pipe):
 		var flux: Liquid = self.pipe_flux_scene.instance()
-		flux._init(pipe.pipe_flux.liquid_name)
+		flux.init(pipe.pipe_flux.liquid_name)
 		self.add_child(flux)
 		self.pipe_flux = flux
 		self.emit_signal("liquid_flowing", self)
